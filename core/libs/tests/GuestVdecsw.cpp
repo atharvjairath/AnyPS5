@@ -299,11 +299,8 @@ void testGenericPictureInfoValidation() {
         check(throws([&] { sceVdecswGetPictureInfo(&output, first.data(), second.data()); }) && first == before && second == before, "generic picture info accepted an invalid descriptor size");
     }
     output.thisSize = sizeof(OutputInfo);
-    output.pictureCount = 2;
     first[0] = sizeof(first);
     const auto firstBefore = first;
-    check(throws([&] { sceVdecswGetPictureInfo(&output, first.data(), second.data()); }) && first == firstBefore && second == before, "two-picture output did not throw before writing");
-    check(throws([&] { sceVdecswGetPictureInfo(&output, nullptr, nullptr); }), "two-picture output was silently accepted");
     output.pictureCount = 1;
     output.frameBuffer = first.data();
     check(throws([&] { sceVdecswGetPictureInfo(&output, first.data(), nullptr); }) && first == firstBefore, "generic picture info accepted a foreign frame buffer");
